@@ -1,0 +1,62 @@
+#Threshold
+minH: 26.0
+maxH: 90.0
+minS: 64.0
+maxS: 255
+minV: 62.0
+maxV: 255
+
+
+#Contours
+minArea: 100
+minPerimeter: 0
+minVertices: 0
+makeConvex: True
+
+
+#solvePnP Information
+useSolvePnP: True
+targetSides: 6
+# Point order starts at first point angle and goes counter clockwise. down and to the right are positive Y and X
+targetPointCoords: [[[0.0, 0.0, 0.0]],
+                     [[4.0, 0.0, 0.0]],
+                     [[7.6, -9.9, 0.0]],
+                     [[7.6, -13.9, 0.0]],
+                     [[-2.9, -13.9, 0.0]],
+                     [[-2.9, -9.9, 0.0]]]
+#expected angle of first point (CCW from +x axis)
+firstPointAngle: 255
+ransac: False #ransac uses the solvePnPRansac function. This can be useful for removing noisy data
+minSideLength: 0.013 #percentage of permimeter length
+
+
+#Camera
+imgWidth: 640 #width (suggested=640)
+imgHeight: 480 #height (suggested=480)
+framerate: 90 #framerate (suggested=90)
+exposure: 4 #exposure (suggested=4)
+
+#cameraK - camera matrix, cameraD - distortion matrix
+
+# PI CAMERA V1 (Fisheye)
+#CAMERA_K: [[315.4365727631, 0.0, 328.6512811181], [0.0, 315.3541911202, 223.805733087], [0.0, 0.0, 1.0]]
+#CAMERA_D: [[-0.030163829950472745], [-0.018617032964545675], [0.03451900815274678], [-0.019153942365689836]]
+
+# PI CAMERA V2 (Fisheye)
+#cameraK: [[788.294012296955, 0.0, 305.39151800608096], [0.0, 791.2707657355977, 290.2557000689666], [0.0, 0.0, 1.0]]
+#cameraD: [[0.020421134908764543], [-0.36385021165302733], [0.7312768623364644], [1.5494355870117549]]
+
+# PI CAMERA V1
+cameraK: [[629.2963586, 0.0, 316.47412212], [0.0, 632.25250025, 239.85050599], [0.0, 0.0, 1.0]]
+cameraD: [[ 0.2027078, -0.273274938, -0.00688211622, -0.000873752088, -1.00208585]]
+fisheye: False
+
+
+#Misc
+roborioAddress: roborio-xxxx-frc.local
+networkTable: vision
+webserverPort: 5802
+x11Stream: false
+webStream: true
+streamFramesToSkip: 9
+connectToRobot: True

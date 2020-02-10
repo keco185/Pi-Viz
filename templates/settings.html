@@ -1,0 +1,92 @@
+<head>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  #section {
+    width:300px;
+    display:inline-block;
+    padding-top: 0px;
+    margin-top:50px;
+    margin-left: 50px;
+    border-radius: 5px;
+    box-shadow: 3px 3px #AAA;
+    border: 2px solid #AAA;
+    overflow: hidden;
+    vertical-align:top;
+  }
+  #section div {
+    margin: 0%;
+    width:100%;
+    color: #FFF;
+    background-color: #38f;
+    border-bottom: 1px solid #AAA;
+    padding-top: 8px;
+    padding-left: 0px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  #section table {
+    width: 100%;
+    padding: 8px;
+  }
+  #section table th {
+    border-bottom: 1px solid #38f;
+    padding-bottom: 2px;
+  }
+</style>
+</head>
+<body>
+<div id="section">
+  <div>HSV Threshold</div>
+  <table>
+    <tr><th>Parameter</th><th>Value</th>
+      <tr><td>Hue</td><td> {{minH}} to {{maxH}}</td></tr>
+      <tr><td>Saturation</td><td> {{minS}} to {{maxS}}</td></tr>
+      <tr><td>Value</td><td> {{minV}} to {{maxV}}</td></tr>
+    </table>
+  </div>
+
+  <div id="section">
+    <div>Contours</div>
+    <table>
+      <tr><th>Parameter</th><th>Value</th>
+        <tr><td>Min Area</td><td> {{minArea}}</td></tr>
+        <tr><td>Min Perimeter</td><td> {{minPerimeter}}</td></tr>
+        <tr><td>Vertices</td><td> {{minVertices}} to {{maxVertices}}</td></tr>
+      </table>
+    </div>
+
+    <div id="section">
+      <div>Rotated Rectangle Fit</div>
+      <table>
+        <tr><th>Parameter</th><th>Value</th>
+          <tr><td>Angles</td><td> {{minAngle}} to {{maxAngle}}</td></tr>
+          <tr><td>Width</td><td> {{minWidth}} to {{maxWidth}}</td></tr>
+          <tr><td>Height</td><td> {{minHeight}} to {{maxHeight}}</td></tr>
+          <tr><td>Aspect Ratio</td><td> {{minAspectRatio}} to {{maxAspectRatio}}</td></tr>
+        </table>
+      </div>
+
+      <div id="section">
+        <div>Camera</div>
+        <table>
+          <tr><th>Parameter</th><th>Value</th>
+            <tr><td>Camera frame</td><td> {{imgWidth}}x{{imgHeight}}</td></tr>
+            <tr><td>Framerate</td><td> {{framerate}} fps</td></tr>
+            <tr><td>Exposure</td><td> {{exposure}}</td></tr>
+          </table>
+        </div>
+
+        <div id="section">
+          <div>Misc</div>
+          <table>
+            <tr><th>Parameter</th><th>Value</th>
+              <tr><td>RoboRIO Address</td><td> {{roborioAddress}}</td></tr>
+              <tr><td>Network Table</td><td> {{networkTable}}</td></tr>
+              <tr><td>Web Port</td><td> {{webserverPort}}</td></tr>
+              <tr><td>X11 Stream</td><td> {{displayCameraStream}}</td></tr>
+              <tr><td>X11 Frame Skips</td><td> {{streamFramesToSkip}}</td></tr>
+            </table>
+          </div>

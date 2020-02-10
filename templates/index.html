@@ -1,0 +1,243 @@
+<head>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    #section {
+      width:640px;
+      display:inline-block;
+      padding-top: 0px;
+      margin-top:50px;
+      margin-left: 50px;
+      border-radius: 5px;
+      box-shadow: 3px 3px #AAA;
+      border: 2px solid #AAA;
+      overflow: hidden;
+      vertical-align:top;
+    }
+    #section img {
+      width: 640px;
+      margin:0px;
+      padding:0px;
+    }
+    #section div {
+      margin: 0%;
+      width:100%;
+      color: #FFF;
+      background-color: #38f;
+      border-bottom: 1px solid #AAA;
+      padding-top: 8px;
+      padding-left: 0px;
+      padding-bottom: 4px;
+      text-align: center;
+    }
+    #section table {
+      width: 100%;
+      padding: 8px;
+    }
+    #section table th {
+      border-bottom: 1px solid #38f;
+      padding-bottom: 2px;
+    }
+
+    #button {
+      width: 100px;
+      height:30px;
+      line-height:30px;
+      border-bottom-right-radius: 3px;
+      border-bottom-left-radius: 3px;
+      background: #38f;
+      cursor: pointer;
+      color: #FFF;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 25px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    .slider:hover {
+      opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      background: #38f;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #38f;
+      cursor: pointer;
+    }
+
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.sliderb {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.sliderb:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .sliderb {
+  background-color: #2196F3;
+}
+
+input:focus + .sliderb {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .sliderb:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+#targetTable tr td {
+  width: 25%;
+}
+  </style>
+  <script type="text/javascript">
+    function refresh(node) {
+      var times = {{streamFramesToSkip*1000/framerate}};
+      (function startRefresh() {
+        var address;
+        if (node.src.indexOf('?')>-1) {
+          address = node.src.split('?')[0]
+        } else {
+          address = node.src;
+        }
+        if (document.getElementById("webStream").checked) {
+          node.src = address+"?time="+new Date().getTime();
+        }
+        setTimeout(startRefresh,times);
+      })();
+    }
+    window.onload = function() {
+
+      var node1 = document.getElementById('preview1');
+      var node2 = document.getElementById('preview2');
+      refresh(node1);
+      refresh(node2);
+      updateTarget();
+    }
+
+    function updateSetting(id, value) {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", "updatesetting?s="+id+"&v="+value, false ); // false for synchronous request
+      xmlHttp.send( null );
+    }
+
+    function saveSettings() {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", "savesettings", false ); // false for synchronous request
+      xmlHttp.send( null );
+    }
+
+    function httpGet(theUrl)
+{
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            return xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", theUrl, false );
+    xmlhttp.send();
+    return xmlhttp.responseText;
+}
+
+    function updateTarget() {
+      (function startupdateTarget() {
+      href = window.location.href.split('/');
+      targetCoords = httpGet(href[0]+'//'+href[2]+'/primeTarget');
+      splitCoords = targetCoords.split(',');
+      document.getElementById('X').innerHTML = splitCoords[0]
+      document.getElementById('Y').innerHTML = splitCoords[1]
+      document.getElementById('Z').innerHTML = splitCoords[2]
+      document.getElementById('X-rot').innerHTML = splitCoords[3]
+      document.getElementById('Y-rot').innerHTML = splitCoords[4]
+      document.getElementById('Z-rot').innerHTML = splitCoords[5]
+      setTimeout(startupdateTarget, 100)
+    })();
+    }
+
+  </script>
+</head>
+<body>
+  <div id="section">
+    <div onClick="window.open('preview.jpg')" style="cursor: pointer;">Preview</div>
+    <img src="preview.jpg" id="preview1"/>
+    <table>
+      <tr><td>Generate Preview</td><td><label class="switch"><input type="checkbox" id="webStream" onChange="updateSetting(this.id, this.checked)" {{'checked' if webStream else ''}}><span class="sliderb"></span></label></td></tr>
+    </table>
+    <div>Prime Target</div>
+    <table id="targetTable">
+      <tr><td>X</td><td id="X"></td><td>X-rot</td><td id="X-rot"></td></tr>
+      <tr><td>Y</td><td id="Y"></td><td>Y-rot</td><td id="Y-rot"></td></tr>
+      <tr><td>Z</td><td id="Z"></td><td>Z-rot</td><td id="Z-rot"></td></tr>
+    </table>
+  </div>
+  <div id="section">
+    <div onClick="window.open('preview2.jpg')" style="cursor: pointer;">Threshold</div>
+    <img src="preview2.jpg" id="preview2" />
+    <table>
+      <tr><td>Min H</td><td><input type="range" min="0" max="180" value="{{minH}}" class="slider" id="minH" onChange="updateSetting(this.id, this.value)"></td></tr>
+      <tr><td>Max H</td><td><input type="range" min="0" max="180" value="{{maxH}}" class="slider" id="maxH" onChange="updateSetting(this.id, this.value)"></td></tr>
+      <tr><td>Min S</td><td><input type="range" min="0" max="255" value="{{minS}}" class="slider" id="minS" onChange="updateSetting(this.id, this.value)"></td></tr>
+      <tr><td>Max S</td><td><input type="range" min="0" max="255" value="{{maxS}}" class="slider" id="maxS" onChange="updateSetting(this.id, this.value)"></td></tr>
+      <tr><td>Min V</td><td><input type="range" min="0" max="255" value="{{minV}}" class="slider" id="minV" onChange="updateSetting(this.id, this.value)"></td></tr>
+      <tr><td>Max V</td><td><input type="range" min="0" max="255" value="{{maxV}}" class="slider" id="maxV" onChange="updateSetting(this.id, this.value)"></td></tr>
+    </table>
+    <div id="button" onClick="saveSettings()">Save</div>
+  </div>
+</body>
